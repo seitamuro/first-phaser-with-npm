@@ -9,7 +9,7 @@ export class LoadingScene extends Scene {
 
   create(): void {
     console.log("Loading scene was created");
-    this.king = this.add.sprite(100, 100, "king");
+    this.scene.start("level-1-scene");
   }
 
   preload(): void {
