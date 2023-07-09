@@ -232,8 +232,17 @@
  "tileheight":16,
  "tilesets":[
         {
+         "columns":32,
          "firstgid":1,
-         "source":"..\/tiles\/dungeon-16-16.tsx"
+         "image":"..\/tiles\/dungeon-16-16.png",
+         "imageheight":512,
+         "imagewidth":512,
+         "margin":0,
+         "name":"dungeon",
+         "spacing":0,
+         "tilecount":1024,
+         "tileheight":16,
+         "tilewidth":16
         }],
  "tilewidth":16,
  "type":"map",
