@@ -15,5 +15,6 @@ export class LoadingScene extends Scene {
   preload(): void {
     this.load.setBaseURL("/assets/");
     this.load.image("king", "sprites/king.png");
+    this.load.atlas("a-king", "/spritesheets/a-king.png", "/spritesheets/a-king_atlas.json");
   }
 }
