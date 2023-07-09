@@ -29,7 +29,7 @@ export class Level1 extends Scene {
     this.wallsLayer = this.map.createLayer('Wall', this.tileset, 0, 0)!;
     this.wallsLayer.setCollisionByProperty({ collides: true });
     this.physics.world.setBounds(0, 0, this.wallsLayer.width, this.wallsLayer.height);
-    this.showDebugWalls();
+    // this.showDebugWalls();
   }
 
   private showDebugWalls(): void {
