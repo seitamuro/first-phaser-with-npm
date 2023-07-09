@@ -21,10 +21,6 @@
     },
     "typeRoots": [
       "node_modules/@types",
-      "./node_modules/phaser/types/phaser.d.ts"
-    ],
-    "types": [
-      "Phaser"
     ]
   },
   "include": [
