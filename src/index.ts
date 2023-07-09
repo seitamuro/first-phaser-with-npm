@@ -1,47 +1,54 @@
-import * as Phaser from 'phaser';
+import { Game, Types } from "phaser"
+import { LoadingScene } from "@/scenes"
 
-export default class Demo extends Phaser.Scene
-{
-    constructor ()
-    {
-        super('demo');
-    }
-
-    preload ()
-    {
-        this.load.image('logo', '/assets/phaser3-logo.png');
-        this.load.image('libs', '/assets/libs.png');
-        this.load.glsl('bundle', '/assets/plasma-bundle.glsl.js');
-        this.load.glsl('stars', '/assets/starfields.glsl.js');
-    }
-
-    create ()
-    {
-        this.add.shader('RGB Shift Field', 0, 0, 800, 600).setOrigin(0);
-
-        this.add.shader('Plasma', 0, 412, 800, 172).setOrigin(0);
-
-        this.add.image(400, 300, 'libs');
-
-        const logo = this.add.image(400, 70, 'logo');
-
-        this.tweens.add({
-            targets: logo,
-            y: 350,
-            duration: 1500,
-            ease: 'Sine.inOut',
-            yoyo: true,
-            repeat: -1
-        })
-    }
+declare global {
+    interface Window { game: Game; sizeChanged: () => void; }
 }
 
-const config = {
-    type: Phaser.AUTO,
-    backgroundColor: '#125555',
-    width: 800,
-    height: 600,
-    scene: Demo
-};
+const gameConfig: Types.Core.GameConfig = {
+    title: "Phaser game tutorial",
+    type: Phaser.WEBGL,
+    parent: "game",
+    backgroundColor: "#351f1b",
+    scale: {
+        mode: Phaser.Scale.ScaleModes.NONE,
+        width: window.innerWidth,
+        height: window.innerHeight,
+    },
+    physics: {
+        default: "arcade",
+        arcade: {
+            debug: false,
+        }
+    },
+    render: {
+        antialias: false,
+        pixelArt: true,
+    },
+    callbacks: {
+        postBoot: () => {
+            window.sizeChanged();
+        },
+    },
+    canvasStyle: "display: block; width: 100%; height: 100%;",
+    autoFocus: true,
+    audio: {
+        disableWebAudio: false,
+    },
+    scene: [LoadingScene],
+}
 
-const game = new Phaser.Game(config);
+window.sizeChanged = () => {
+    if (window.game.isBooted) {
+        setTimeout(() => {
+            window.game.scale.resize(window.innerWidth, window.innerHeight);
+            window.game.canvas.setAttribute(
+                "style",
+                `display: block; width: ${window.innerWidth}px; height: ${window.innerHeight}px;`
+            )
+        }, 100);
+    }
+}
+window.onresize = () => window.sizeChanged();
+
+window.game = new Game(gameConfig)
