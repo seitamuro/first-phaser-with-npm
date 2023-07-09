@@ -13,7 +13,10 @@ export class Level1 extends Scene {
   }
 
   create(): void {
+    // map
     this.initMap();
+
+    // player
     this.player = new Player(this, 100, 100);
     this.physics.add.collider(this.player, this.wallsLayer);
   }
