@@ -1,4 +1,4 @@
-import { EVENTS_NAME } from "@/consts";
+import { EVENTS_NAME, GameStatus } from "@/consts";
 import { Actor } from "./actor"
 import { Text } from "./text"
 
@@ -91,5 +91,8 @@ export class Player extends Actor {
   public getDamage(value?: number): void {
     super.getDamage(value);
     this.hpValue.setText(this.hp.toString());
+    if (this.hp <= 0) {
+      this.scene.game.events.emit(EVENTS_NAME.gameEnd, GameStatus.LOSE);
+    }
   }
 }
