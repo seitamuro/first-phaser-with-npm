@@ -10,6 +10,7 @@ export class LoadingScene extends Scene {
   create(): void {
     console.log("Loading scene was created");
     this.scene.start("level-1-scene");
+    this.scene.start("ui-scene");
   }
 
   preload(): void {

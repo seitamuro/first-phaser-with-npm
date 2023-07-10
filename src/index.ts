@@ -1,5 +1,6 @@
 import { Game, Types } from "phaser"
 import { Level1, LoadingScene } from "@/scenes"
+import { UIScene } from "./scenes/ui";
 
 declare global {
     interface Window { game: Game; sizeChanged: () => void; }
@@ -35,7 +36,7 @@ const gameConfig: Types.Core.GameConfig = {
     audio: {
         disableWebAudio: false,
     },
-    scene: [LoadingScene, Level1],
+    scene: [LoadingScene, Level1, UIScene],
 }
 
 window.sizeChanged = () => {
