@@ -1,3 +1,4 @@
+import { EVENTS_NAME } from "@/consts";
 import { Actor } from "./actor"
 import { Text } from "./text"
 
@@ -6,6 +7,7 @@ export class Player extends Actor {
   private keyA: Phaser.Input.Keyboard.Key;
   private keyS: Phaser.Input.Keyboard.Key;
   private keyD: Phaser.Input.Keyboard.Key;
+  private keySpace: Phaser.Input.Keyboard.Key;
   private hpValue: Text;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
@@ -24,6 +26,12 @@ export class Player extends Actor {
     this.hpValue = new Text(this.scene, this.x, this.y - this.height, this.hp.toString())
       .setFontSize(12)
       .setOrigin(0.8, 0.5);
+
+    this.keySpace = this.scene.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)!;
+    this.keySpace.on("down", (event: KeyboardEvent) => {
+      this.anims.play("attack", true);
+      this.scene.game.events.emit(EVENTS_NAME.attack)
+    })
   }
 
   private initAnimations(): void {

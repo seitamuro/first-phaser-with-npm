@@ -1,10 +1,12 @@
 import { Math, Scene } from "phaser"
 import { Actor } from "@/classes/actor"
 import { Player } from "@/classes/player"
+import { EVENTS_NAME } from "@/consts";
 
 export class Enemy extends Actor {
   private target: Player;
   private AGRESSOR_RADIUS: number = 100;
+  private attackHandler: () => void;
 
   constructor(
     scene: Phaser.Scene,
@@ -20,6 +22,24 @@ export class Enemy extends Actor {
     scene.physics.add.existing(this);
     this.getBody().setSize(16, 16);
     this.getBody().setOffset(0, 0);
+
+    this.attackHandler = () => {
+      if (Phaser.Math.Distance.BetweenPoints(
+        { x: this.x, y: this.y },
+        { x: this.target.x, y: this.target.y }
+      ) < this.target.width) {
+        this.getDamage();
+        this.disableBody(true, false);
+        this.scene.time.delayedCall(300, () => {
+          this.destroy();
+        })
+      }
+    }
+
+    this.scene.game.events.on(EVENTS_NAME.attack, this.attackHandler, this);
+    this.on("destroy", () => {
+      this.scene.game.events.removeListener(EVENTS_NAME.attack, this.attackHandler)
+    })
   }
 
   preUpdate(): void {
