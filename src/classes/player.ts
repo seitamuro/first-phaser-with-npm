@@ -32,6 +32,10 @@ export class Player extends Actor {
       this.anims.play("attack", true);
       this.scene.game.events.emit(EVENTS_NAME.attack)
     })
+
+    this.on("destroy", () => {
+      this.keySpace.removeAllListeners();
+    })
   }
 
   private initAnimations(): void {
