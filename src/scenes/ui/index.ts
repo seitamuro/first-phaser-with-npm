@@ -2,6 +2,7 @@ import { Scene } from "phaser"
 import { Score, ScoreOperations } from "@/classes/score"
 import { EVENTS_NAME, GameStatus } from "@/consts";
 import { Text } from "@/classes/text";
+import { gameConfig } from "../../";
 
 export class UIScene extends Scene {
   private score!: Score;
@@ -14,6 +15,9 @@ export class UIScene extends Scene {
 
     this.chestLootHandler = () => {
       this.score.changeValue(ScoreOperations.INCREASE, 10);
+      if (this.score.getValue() >= gameConfig.winScore) {
+        this.game.events.emit(EVENTS_NAME.gameEnd, GameStatus.WIN);
+      }
     }
 
     this.gameEndHandler = (status: GameStatus) => {
@@ -26,6 +30,12 @@ export class UIScene extends Scene {
         this.game.scale.width / 2 - this.gameEndPhase.width / 2,
         this.game.scale.height * 0.4
       )
+      this.input.on("pointerdown", () => {
+        this.game.events.off(EVENTS_NAME.chestLoot, this.chestLootHandler);
+        this.game.events.off(EVENTS_NAME.gameEnd, this.gameEndHandler);
+        this.scene.get("level-1-scene").scene.restart();
+        this.scene.restart();
+      })
     }
   }
 
