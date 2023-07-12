@@ -3,7 +3,7 @@ import { Level1, LoadingScene } from "@/scenes"
 import { UIScene } from "./scenes/ui";
 
 declare global {
-    interface Window { game: Game; sizeChanged: () => void; }
+    interface Window { game: Game; sizeChanged: () => void; initializeGame: (config: GameConfigExtended) => Game; gameConfig: GameConfigExtended; }
 }
 
 type GameConfigExtended = Types.Core.GameConfig & {
@@ -55,6 +55,13 @@ window.sizeChanged = () => {
         }, 100);
     }
 }
+
+window.gameConfig = gameConfig;
 window.onresize = () => window.sizeChanged();
+
+window.initializeGame = (config: GameConfigExtended) => {
+    window.game = new Game(config);
+    return window.game;
+}
 
 window.game = new Game(gameConfig)
